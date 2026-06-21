@@ -197,6 +197,9 @@ begin
     writeln(Outfile,'Apply Updates');
     ApplyUpdates;
     PrintDataSet(FIBDataSet);
+    Refresh;
+    PrintDataSet(FIBDataSet);
+
     writeln(Outfile,'Restore KeyField');
     Edit;
     FieldByName('KeyField').AsInteger := lastkey;

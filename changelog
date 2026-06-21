@@ -1,3 +1,9 @@
+IBX Change Log  version (2.7-12 Build 1673) Tue, 2 Jun 2026 14:46:19 +0100
+
+1. ApplyUpdates: Ensure that SQL references to "OLD_" param values are respected.
+   This typically applies to changes to the keyfield where the "WHERE" clause
+   in the update query referes to the old value of the keyfield.
+
 IBX Change Log  version (2.7-11 Build 1673) Tue, 2 Jun 2026 14:46:19 +0100
 
 1. Fixed issue when IBX has to disambiguate aliasnames. This occurs when aggregation

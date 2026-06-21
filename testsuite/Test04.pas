@@ -184,6 +184,7 @@ begin
       'Where A.TABLEKEY = :TABLEKEY';
     ModifySQL.Text :=
         'Update IBXTEST A Set ' +
+        '  A.TABLEKEY = :TABLEKEY,' +
         '  A.F1 = :F1,' +
         '  A.F2 = :F2,' +
         '  A.F3 = :F3,' +
@@ -339,6 +340,10 @@ begin
     FDataSet.Edit;
     FDataSet.FieldByName('TABLEKEY').AsInteger := 10;
     FDataSet.Post;
+    IBTransaction.Commit;
+    FDataSet.Active := false;
+    IBTransaction.Active := true;
+    FDataSet.Active := true;
     PrintDataSet(FDataSet);
     FDataSet.Active := false;
     writeln(Outfile,'Ambiguous Field Names Test');
