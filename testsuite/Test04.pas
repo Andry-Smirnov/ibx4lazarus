@@ -334,6 +334,12 @@ begin
     IBTransaction.Active := true;
     FDataSet.Active := true;
     PrintDataSet(FDataSet);
+    writeln(Outfile,'Update KeyField');
+    FDataSet.Last;
+    FDataSet.Edit;
+    FDataSet.FieldByName('TABLEKEY').AsInteger := 10;
+    FDataSet.Post;
+    PrintDataSet(FDataSet);
     FDataSet.Active := false;
     writeln(Outfile,'Ambiguous Field Names Test');
     FQuery.Active := true;

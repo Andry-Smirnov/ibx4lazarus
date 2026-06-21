@@ -187,6 +187,20 @@ begin
     Active := false;
     Active := true;
     PrintDataSet(FIBDataSet);
+    writeln(Outfile,'Update KeyField');
+    Last;
+    lastkey := FieldByName('KeyField').AsInteger;
+    Edit;
+    FieldByName('KeyField').AsInteger := 10;
+    Post;
+    PrintDataSet(FIBDataSet);
+    writeln(Outfile,'Apply Updates');
+    ApplyUpdates;
+    PrintDataSet(FIBDataSet);
+    writeln(Outfile,'Restore KeyField');
+    Edit;
+    FieldByName('KeyField').AsInteger := lastkey;
+    Post;
 
     writeln(OutFile);
     writeln(OutFile,'Update of First and Last records and implicitly apply');

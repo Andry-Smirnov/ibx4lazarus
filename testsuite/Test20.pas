@@ -250,7 +250,21 @@ begin
       Active := true;
       writeln(Outfile,'close and re-open and print again');
       PrintDataSet(IBQuery);
-    end;
+      writeln(Outfile,'Update KeyField');
+      {make sure more than one record}
+      Append;
+      FieldByName('PlainText').AsString := 'This is an extra row';
+      Post;
+      PrintDataSet(IBQuery);
+      Last;
+      Edit;
+      FieldByName('KeyField').AsInteger := 10;
+      Post;
+      PrintDataSet(IBQuery);
+      writeln(Outfile,'Apply Updates');
+      ApplyUpdates;
+      PrintDataSet(IBQuery);
+   end;
     IBTransaction.Rollback;
     IBTransaction.Active := true;
     with FIBQuery2 do
