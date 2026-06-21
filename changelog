@@ -1,4 +1,4 @@
-IBX Change Log  version (2.7-12 Build 1673) Tue, 2 Jun 2026 14:46:19 +0100
+IBX Change Log  version (2.7-12 Build 1676) Sun, 21 Jun 2026 13:46:42 +0100
 
 1. ApplyUpdates: Ensure that SQL references to "OLD_" param values are respected.
    This typically applies to changes to the keyfield where the "WHERE" clause
