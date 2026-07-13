@@ -1042,7 +1042,7 @@ begin
       AText := '';
   end
   else
-    AText := GetAsString;
+    inherited GetText(AText,ADisplayText);
 end;
 
 { TIBFieldDef }
