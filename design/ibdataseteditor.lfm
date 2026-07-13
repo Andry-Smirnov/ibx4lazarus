@@ -12,7 +12,7 @@ object IBDataSetEditorForm: TIBDataSetEditorForm
   OnClose = FormClose
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '1.8.1.0'
+  LCLVersion = '3.7.0.0'
   object PageControl: TPageControl
     Left = 8
     Height = 352
@@ -24,39 +24,39 @@ object IBDataSetEditorForm: TIBDataSetEditorForm
     TabOrder = 0
     object FieldsPage: TTabSheet
       Caption = 'Options'
-      ClientHeight = 320
+      ClientHeight = 317
       ClientWidth = 635
       object GroupBox1: TGroupBox
         Left = 8
-        Height = 315
+        Height = 312
         Top = 4
         Width = 617
         Anchors = [akTop, akLeft, akRight, akBottom]
         Caption = ' SQL Generation '
-        ClientHeight = 300
+        ClientHeight = 294
         ClientWidth = 615
         TabOrder = 0
         object Label1: TLabel
           Left = 12
-          Height = 14
+          Height = 17
           Top = 18
-          Width = 73
+          Width = 70
           Caption = 'Table &Name:'
           ParentColor = False
         end
         object Label3: TLabel
           Left = 289
-          Height = 14
+          Height = 17
           Top = 18
-          Width = 62
+          Width = 58
           Caption = '&Key Fields:'
           ParentColor = False
         end
         object Label4: TLabel
           Left = 458
-          Height = 14
+          Height = 17
           Top = 18
-          Width = 110
+          Width = 103
           Caption = 'Updateable &Fields:'
           ParentColor = False
         end
@@ -66,14 +66,14 @@ object IBDataSetEditorForm: TIBDataSetEditorForm
           Top = 83
           Width = 168
           Caption = '&Generate SQL'
-          OnClick = GenerateButtonClick
           TabOrder = 0
+          OnClick = GenerateButtonClick
         end
         object QuoteFields: TCheckBox
           Left = 9
           Height = 22
           Top = 160
-          Width = 125
+          Width = 118
           Caption = '&Quote Identifiers'
           TabOrder = 1
         end
@@ -81,7 +81,7 @@ object IBDataSetEditorForm: TIBDataSetEditorForm
           Left = 9
           Height = 22
           Top = 192
-          Width = 241
+          Width = 222
           Caption = 'Include Primary keys in Update SQL'
           TabOrder = 2
         end
@@ -89,13 +89,13 @@ object IBDataSetEditorForm: TIBDataSetEditorForm
           Left = 9
           Height = 22
           Top = 128
-          Width = 171
+          Width = 163
           Caption = 'Allow DSQL Placeholders'
           TabOrder = 3
         end
         object SelectTableNames: TIBLookupComboEditBox
           Left = 12
-          Height = 27
+          Height = 29
           Top = 32
           Width = 209
           KeyField = 'RDB$RELATION_ID'
@@ -112,10 +112,10 @@ object IBDataSetEditorForm: TIBDataSetEditorForm
           Left = 13
           Height = 22
           Top = 59
-          Width = 158
+          Width = 148
           Caption = 'Include System Tables'
-          OnChange = IncludeSysTablesChange
           TabOrder = 5
+          OnChange = IncludeSysTablesChange
         end
         object PrimaryKeysGrid: TIBDynamicGrid
           Left = 288
@@ -188,6 +188,7 @@ object IBDataSetEditorForm: TIBDataSetEditorForm
           Scrollbars = ssAutoVertical
           TabOrder = 7
           ExpandEditorPanelBelowRow = False
+          AllowColumnSort = False
           Descending = False
           EditorBorderStyle = bsSingle
           DefaultPositionAtEnd = False
@@ -196,16 +197,16 @@ object IBDataSetEditorForm: TIBDataSetEditorForm
           Left = 456
           Height = 22
           Top = 256
-          Width = 134
+          Width = 128
           Caption = 'Select/Deselect All'
-          OnClick = SelectSelectAllClick
           TabOrder = 8
+          OnClick = SelectSelectAllClick
         end
         object Label5: TLabel
           Left = 288
-          Height = 14
+          Height = 17
           Top = 104
-          Width = 138
+          Width = 127
           Caption = '&Computed By Columns'
           ParentColor = False
         end
@@ -248,9 +249,9 @@ object IBDataSetEditorForm: TIBDataSetEditorForm
         end
         object Label6: TLabel
           Left = 289
-          Height = 14
+          Height = 17
           Top = 176
-          Width = 103
+          Width = 94
           Caption = '&Identity Columns'
           ParentColor = False
         end
@@ -296,22 +297,22 @@ object IBDataSetEditorForm: TIBDataSetEditorForm
     end
     object SQLPage: TTabSheet
       Caption = 'SQL'
-      ClientHeight = 320
+      ClientHeight = 317
       ClientWidth = 635
       OnShow = SQLPageShow
       object Label2: TLabel
         Left = 10
-        Height = 14
+        Height = 17
         Top = 81
-        Width = 56
+        Width = 51
         Caption = 'S&QL Text:'
         ParentColor = False
       end
       object StatementType: TRadioGroup
         Left = 10
-        Height = 49
+        Height = 52
         Top = 9
-        Width = 327
+        Width = 319
         AutoFill = True
         AutoSize = True
         Caption = 'Statement Type'
@@ -324,7 +325,7 @@ object IBDataSetEditorForm: TIBDataSetEditorForm
         ChildSizing.Layout = cclLeftToRightThenTopToBottom
         ChildSizing.ControlsPerLine = 5
         ClientHeight = 34
-        ClientWidth = 325
+        ClientWidth = 317
         Columns = 5
         ItemIndex = 0
         Items.Strings = (
@@ -344,31 +345,25 @@ object IBDataSetEditorForm: TIBDataSetEditorForm
         Width = 75
         Anchors = [akTop, akRight]
         Caption = 'Test'
-        OnClick = TestBtnClick
         TabOrder = 1
+        OnClick = TestBtnClick
       end
       inline IBSQLEditFrame1: TIBSQLEditFrame
         Left = 12
-        Height = 217
+        Height = 214
         Top = 95
         Width = 616
         Anchors = [akTop, akLeft, akRight, akBottom]
-        ClientHeight = 217
+        ClientHeight = 214
         ClientWidth = 616
         TabOrder = 2
         inherited SQLText: TSynEdit
-          Height = 191
+          Height = 188
           Width = 616
           OnChange = SQLMemoChange
         end
         inherited ToolBar1: TToolBar
           Width = 616
-          inherited ToolButton3: TToolButton
-            Height = 8
-          end
-          inherited ToolButton7: TToolButton
-            Height = 8
-          end
         end
         inherited FieldNameList: TIBQuery
           ParamData = <          
