@@ -485,8 +485,10 @@ end;
     property DatabaseName;
   end;
 
+  {UpgradeODS is appended rather than inserted so that the existing values keep
+   their ordinals for anything already compiled against this unit.}
   TValidateOption = (CheckDB, IgnoreChecksum, KillShadows, MendDB,
-    SweepDB, ValidateDB, ValidateFull);
+    SweepDB, ValidateDB, ValidateFull, UpgradeODS);
   TValidateOptions = set of TValidateOption;
 
   { TIBXValidationService }
@@ -1700,6 +1702,13 @@ begin
      if not (MendDB in Options) then
        param := param or isc_spb_rpr_validate_db;
   end;
+  {Firebird 5 and later: upgrade the on-disk structure in place, as
+   gfix -upgrade does, rather than by backup and restore. Only sent to a
+   server that knows the option, since an older one rejects it.}
+  if (UpgradeODS in Options) then
+  with ServicesConnection do
+    if ServerVersionNo[1] >= 5 then
+      param := param or isc_spb_rpr_upgrade_db;
   if param > 0 then
    SRB.Add(isc_spb_options).AsInteger := param;
 end;
