@@ -2407,9 +2407,17 @@ begin
     case DPBItem.getParamType of
       isc_dpb_user_name, isc_dpb_password, isc_dpb_password_enc,
       isc_dpb_sys_user_name, isc_dpb_license, isc_dpb_encrypt_key,
-      isc_dpb_lc_messages, isc_dpb_lc_ctype, isc_dpb_page_size,
+      isc_dpb_lc_messages, isc_dpb_lc_ctype,
       isc_dpb_sql_role_name:
         DPBItem.SetAsString(ParamValue);
+
+      {isc_dpb_page_size is an integer parameter, not a string one. Writing it
+       with SetAsString stores the digits as text, which the clumplet writer
+       rejects outright once there are more than four of them - so
+       Params.Values['page_size'] := '16384' failed with "length of integer
+       exceeds 4 bytes (5)", and only the four-digit sizes appeared to work.}
+      isc_dpb_page_size:
+        DPBItem.SetAsInteger(StrToUInt(ParamValue));
 
       isc_dpb_sql_dialect:
       begin
