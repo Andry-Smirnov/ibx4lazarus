@@ -1599,7 +1599,13 @@ begin
   FTimer.Interval := 0;
   FTimer.OnTimer := TimeoutTransaction;
   FDefaultAction := taCommit;
-  FTransactionList.Add(self);
+  { Guarded the way Destroy's Remove already is. A transaction can be
+    constructed after this unit has finalized - the LCL frees documents from
+    Application's async queue during Application.Destroy, and tearing a
+    data-aware control down there reaches IBX again - and the list is gone by
+    then. Unguarded, that is an access violation on the way out. }
+  if Assigned(FTransactionList) then
+    FTransactionList.Add(self);
   if (FTransactionName = '') and (CreateGUID(uuid) = 0) then
     FTransactionName := GUIDToString(uuid);
 end;
@@ -2500,8 +2506,13 @@ Initialization
   TIBTransaction.FTransactionList := TList.Create;
 
 Finalization
-  if assigned(TIBTransaction.FCriticalSection) then TIBTransaction.FCriticalSection.Free;
-  if assigned(TIBTransaction.FTransactionList) then TIBTransaction.FTransactionList.Free;
+  { FreeAndNil rather than Free: these are class vars that outlive the unit's
+    finalization in the sense that something can still reach them afterwards,
+    and Free leaves the reference dangling - so the Assigned tests guarding
+    them stayed true and went on reading released memory. Nil is what makes
+    those guards mean anything. }
+  if assigned(TIBTransaction.FCriticalSection) then FreeAndNil(TIBTransaction.FCriticalSection);
+  if assigned(TIBTransaction.FTransactionList) then FreeAndNil(TIBTransaction.FTransactionList);
 
 end.
 
