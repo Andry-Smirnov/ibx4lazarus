@@ -1,3 +1,13 @@
+IBX Change Log  version (2.7-13 Build 1688) Tue, 15 Sep 2026 15:31:18 +0100
+
+1. Allow a backup or restore to request parallel workers
+
+2. Allow an in-place ODS upgrade through the validation service
+
+3. Set isc_dpb_page_size as an integer instead of a string
+
+4. IBDatabase: Do not touch the transaction list after the unit has finalized
+
 IBX Change Log  version (2.7-12 Build 1680) Mon, 13 Jul 2026 09:54:40 +0100
 
 1. ApplyUpdates: Ensure that SQL references to "OLD_" param values are respected.
