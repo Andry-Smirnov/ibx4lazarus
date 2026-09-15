@@ -341,11 +341,17 @@ end;
  private
    FStatisticsRequested: TBackupStatsOptions;
    FVerbose: Boolean;
+   FParallelWorkers: Integer;
  protected
    procedure SetServiceStartOptions; override;
    property Verbose : Boolean read FVerbose write FVerbose default False;
    property StatisticsRequested: TBackupStatsOptions read FStatisticsRequested write FStatisticsRequested;
  published
+   {Number of workers the server should use for the backup or restore, as
+    gbak -par does. Firebird 5 and later; an older server rejects the
+    parameter, so it is only sent when the server can take it. Zero or one
+    means the default, single-threaded behaviour.}
+   property ParallelWorkers: Integer read FParallelWorkers write FParallelWorkers default 0;
  end;
 
  TBackupOption = (IgnoreChecksums, IgnoreLimbo, MetadataOnly, NoGarbageCollection,
@@ -479,8 +485,10 @@ end;
     property DatabaseName;
   end;
 
+  {UpgradeODS is appended rather than inserted so that the existing values keep
+   their ordinals for anything already compiled against this unit.}
   TValidateOption = (CheckDB, IgnoreChecksum, KillShadows, MendDB,
-    SweepDB, ValidateDB, ValidateFull);
+    SweepDB, ValidateDB, ValidateFull, UpgradeODS);
   TValidateOptions = set of TValidateOption;
 
   { TIBXValidationService }
@@ -1694,6 +1702,13 @@ begin
      if not (MendDB in Options) then
        param := param or isc_spb_rpr_validate_db;
   end;
+  {Firebird 5 and later: upgrade the on-disk structure in place, as
+   gfix -upgrade does, rather than by backup and restore. Only sent to a
+   server that knows the option, since an older one rejects it.}
+  if (UpgradeODS in Options) then
+  with ServicesConnection do
+    if ServerVersionNo[1] >= 5 then
+      param := param or isc_spb_rpr_upgrade_db;
   if param > 0 then
    SRB.Add(isc_spb_options).AsInteger := param;
 end;
@@ -1927,6 +1942,14 @@ var options: string;
 begin
   if Verbose then
     SRB.Add(isc_spb_verbose);
+
+  {Firebird 5 and later. isc_spb_bkp_parallel_workers and
+   isc_spb_res_parallel_workers are the same parameter code, so one property
+   serves both directions.}
+  if FParallelWorkers > 1 then
+  with ServicesConnection do
+    if ServerVersionNo[1] >= 5 then
+      SRB.Add(isc_spb_bkp_parallel_workers).AsInteger := FParallelWorkers;
 
   with ServicesConnection do
   {Firebird 2.5.5 and later}
